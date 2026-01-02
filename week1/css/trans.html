@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Transition & Transform 예제</title>
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column; /* 요소를 위아래로 배치 */
+            justify-content: center;
+            align-items: center;
+            gap: 30px; /* 박스와 버튼 사이 간격 */
+            margin: 0;
+            background-color: #f0f2f5;
+            font-family: sans-serif;
+        }
+
+        /* 1. 상단 박스 스타일 */
+        .target-box {
+            width: 150px;
+            height: 150px;
+            background-color: #2ecc71; /* 기본 녹색 */
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            
+            /* 라운드 처리 */
+            border-radius: 20px; 
+            
+            /* 텍스트 중앙 정렬 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            /* ★ 핵심: 모든 속성(배경색, 회전 등)이 0.5초 동안 부드럽게 변함 */
+            transition: all 0.5s ease;
+            
+            /* 그림자 (선택사항) */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        /* 2. 마우스를 올렸을 때 (Hover) - 배경색 변경 */
+        .target-box:hover {
+            background-color: #f1c40f; /* 노란색으로 변경 */
+            color: #333; /* 글자색은 잘 보이게 검정 계열로 */
+            transform: scale(1.05); /* (선택사항) 호버 시 살짝 커지는 효과 추가 */
+        }
+
+        /* 3. 버튼 클릭 시 적용할 회전 클래스 */
+        .target-box.rotated {
+            transform: rotate(45deg); /* 45도 회전 */
+        }
+
+        /* 하단 버튼 스타일 */
+        .action-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        .action-btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="target-box" id="box">hover me</div>
+
+    <button class="action-btn" id="rotateBtn">45도 회전시키기</button>
+
+    <script>
+        // 요소 선택
+        const box = document.getElementById('box');
+        const btn = document.getElementById('rotateBtn');
+
+        // 버튼 클릭 이벤트
+        btn.addEventListener('click', () => {
+            // 박스에 'rotated' 클래스를 줬다 뺐다(토글) 함
+            box.classList.toggle('rotated');
+        });
+    </script>
+
+</body>
+</html>
