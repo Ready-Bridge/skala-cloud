@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>여러가지 입력 유형</title>
+</head>
+<body>
+    <h1>여러가지 입력 유형</h1>
+    <form>
+        <label for="text-input">텍스트 입력:</label>
+        <input type="text" id="text-input" name="text-input"><br><br>
+
+        <label for="password-input">비밀번호 입력:</label>
+        <input type="password" id="password-input" name="password-input"><br><br>   
+
+        <label for="email-input">이메일 입력:</label>
+        <input type="email" id="email-input" name="email-input"><br><br>   
+
+        <label for="number-input">숫자 입력:</label>
+        <input type="number" id="number-input" name="number-input" step="0.1" min="0" max="1"><br><br>   
+
+        <label for="date-input">날짜 입력:</label>
+        <input type="date" id="date-input" name="date-input"><br><br>   
+
+        <label for="agree-checkbox">약관 동의:</label>
+        <input type="checkbox" id="agree-checkbox" name="agree-checkbox"><br><br>
+
+        <label for="male">남성</label>
+        <input type="radio" id="male" name="gender1" value="male">
+        <label for="female">여성</label>
+        <input type="radio" id="female" name="gender1" value="female"><br><br>
+
+        
+        <label for="color-input">색상 선택:</label>
+        <input type="color" id="color-input" name="color-input"><br><br>
+
+        <select id="fruitSelect">
+            <option value="">-- 과일 선택 --</option>
+            <option value="사과">사과</option>
+            <option value="바나나">바나나</option>
+            <option value="포도">포도</option>
+            <option value="오렌지">오렌지</option>
+        </select><br><br>
+        
+        <button>제출</button>
+        <button type="reset">초기화</button>
+    </form>
+</body>
+</html>
