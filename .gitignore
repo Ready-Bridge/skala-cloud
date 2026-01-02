@@ -1,0 +1,54 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# 기타 에디터 임시 파일
+*.swp
+*~
+
+# 일반적인 로그 및 압축 파일
+*.log
+*.zip
+*.tar
+*.tar.gz
+
+# python 실행 시 자동 생성되는 바이트코드 및 캐시
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.python-version
+
+# 가상환경
+venv/
+.venv/
+env/
+.env/
+bin/
+lib/
+include/
+share/
+
+# 배포 및 빌드 결과물
+dist/
+build/
+*.egg-info/
