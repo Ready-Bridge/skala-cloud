@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>드래그 앤 드롭 멋진 효과</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
+            font-family: sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        /* --- 기존 버튼 스타일 (약간 수정) --- */
+        .my-btn {
+            background-color: red;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: grab; /* 평소엔 잡을 수 있는 손 모양 */
+            transition: all 0.3s ease; /* 모든 속성 부드럽게 변경 */
+            /* 드래그 중 다른 요소들 위에 오도록 설정 */
+            position: relative; 
+            z-index: 10;
+        }
+        
+        /* 호버 및 액티브 효과 (기존 유지) */
+        .my-btn:hover { background-color: green; }
+        .my-btn:active { background-color: coral; transform: scale(0.98); }
+
+
+        /* --- ✨ 새로운 드래그 앤 드롭 효과 CSS ✨ --- */
+
+        /* 1. 드래그가 시작되었을 때 버튼의 모습 */
+        .my-btn.dragging {
+            opacity: 0.5;             /* 반투명하게 */
+            transform: scale(1.05) rotate(2deg); /* 살짝 커지고 기울어짐 (들린 느낌) */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3) !important; /* 그림자를 강하게 */
+            cursor: grabbing !important; /* 움켜쥔 손 모양으로 강제 변경 */
+            background-color: green !important; /* 드래그 중 색상 고정 */
+        }
+
+        /* 2. 드롭 박스 (컨테이너) 기본 스타일 */
+        .drop-zone {
+            margin-top: 60px;
+            width: 400px;
+            height: 250px;
+            /* 점선 테두리로 드롭 영역임을 표시 */
+            border: 3px dashed #bdc3c7;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #95a5a6;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            position: relative; /* 성공 메시지 배치를 위해 */
+            overflow: hidden;   /* 성공 이펙트가 밖으로 나가지 않게 */
+        }
+
+        /* 3. 버튼을 드롭 박스 위로 가져갔을 때 (.drag-over) */
+        .drop-zone.drag-over {
+            border-color: #3498db; /* 파란색 실선으로 변경 */
+            background-color: rgba(52, 152, 219, 0.1); /* 파란색 틴트 배경 */
+            transform: scale(1.03); /* 박스가 살짝 커지며 마중 나옴 */
+            color: #3498db;
+        }
+
+        /* 4. 드롭 성공 애니메이션 (초록색 펄스) */
+        @keyframes successPulse {
+            0% { background-color: rgba(46, 204, 113, 0.6); transform: scale(1); }
+            50% { background-color: rgba(46, 204, 113, 0.2); transform: scale(1.05); }
+            100% { background-color: #fff; transform: scale(1); }
+        }
+        /* 성공 시 자바스크립트가 붙여줄 클래스 */
+        .drop-zone.dropped-success {
+            animation: successPulse 0.6s ease-out;
+            border: 3px solid #2ecc71; /* 테두리 초록색 실선 */
+            color: #2ecc71;
+        }
+        
+        /* 드롭 후 박스 안의 안내 문구 숨기기용 */
+        .drop-zone.has-item .placeholder-text {
+             display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <button class="my-btn" draggable="true" id="draggableBtn">마우스를 올려보세요!</button>
+
+    <div class="drop-zone" id="dropBox">
+        <span class="placeholder-text">여기로 버튼을 끌어오세요!</span>
+    </div>
+
+
+    <script>
+        // 요소 선택
+        const draggableBtn = document.getElementById('draggableBtn');
+        const dropBox = document.getElementById('dropBox');
+
+        /* --- 1. 드래그 시작 및 종료 (버튼 이벤트) --- */
+        
+        draggableBtn.addEventListener('dragstart', (e) => {
+            // 드래그 시작 시 스타일 클래스 추가
+            draggableBtn.classList.add('dragging');
+            // 파이어폭스 등 호환성을 위해 데이터 설정 필요
+            e.dataTransfer.setData('text/plain', draggableBtn.id);
+        });
+
+        draggableBtn.addEventListener('dragend', () => {
+            // 드래그가 끝나면(어디에 놓든) 원래 스타일로 복귀
+            draggableBtn.classList.remove('dragging');
+        });
+
+
+        /* --- 2. 드롭 박스 이벤트 --- */
+
+        // 2-1. dragover: 필수! 이걸 막아야(preventDefault) 드롭이 가능해짐
+        dropBox.addEventListener('dragover', (e) => {
+            e.preventDefault(); 
+            // 드래그한 요소가 박스 위에 있을 때 하이라이트 효과 추가
+            dropBox.classList.add('drag-over');
+        });
+
+        // 2-2. dragleave: 드롭하지 않고 영역을 벗어났을 때
+        dropBox.addEventListener('dragleave', () => {
+            // 하이라이트 효과 제거
+            dropBox.classList.remove('drag-over');
+        });
+
+        // 2-3. drop: 실제 드롭이 일어났을 때
+        dropBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+
+            // 1) 하이라이트 제거
+            dropBox.classList.remove('drag-over');
+
+            // 2) 성공 효과 (초록색 펄스) 클래스 추가
+            dropBox.classList.add('dropped-success');
+            // 3) 안내 문구 숨기기용 클래스 추가
+            dropBox.classList.add('has-item');
+
+            // 4) 실제 버튼 요소를 박스 안으로 이동시킴 (appendChild가 이동시킴)
+            dropBox.appendChild(draggableBtn);
+
+            // 5) 드래그 성공 후 버튼 스타일 약간 초기화
+            draggableBtn.style.transform = 'none'; 
+            draggableBtn.innerHTML = "성공적으로 드롭되었습니다! 🎉";
+
+            // 6) 0.6초 뒤에 성공 이펙트 클래스 제거 (다음 드롭을 위해)
+            setTimeout(() => {
+                dropBox.classList.remove('dropped-success');
+            }, 600);
+        });
+
+    </script>
+
+</body>
+</html>
