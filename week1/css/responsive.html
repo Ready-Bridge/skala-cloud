@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Grid Layout</title>
+    <style>
+        /* 1. 기본 스타일 리셋 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            color: white;
+        }
+
+        /* 2. 그리드 컨테이너 설정 
+           - 전체 페이지를 감싸는 래퍼입니다.
+           - min-height: 100vh를 주어 내용이 적어도 화면 꽉 차게 설정
+        */
+        .layout-container {
+            display: grid;
+            min-height: 100vh;
+            gap: 15px; /* 각 영역 사이의 간격 */
+            padding: 15px;
+            
+            /* [모바일 기본 설정] 세로로 쭉 쌓이는 구조 */
+            grid-template-columns: 1fr; /* 1열 */
+            grid-template-rows: auto 1fr auto auto; /* 헤더-메인-사이드바-푸터 순 */
+            
+            /* 영역 이름 정의 (직관적!) */
+            grid-template-areas: 
+                "header"
+                "main"
+                "sidebar"
+                "footer";
+        }
+
+        /* 3. 데스크탑 (반응형) 설정 
+           - 화면 너비가 768px 이상일 때 적용
+        */
+        @media (min-width: 768px) {
+            .layout-container {
+                /* 가로 비율: 메인(3) : 사이드바(1) */
+                grid-template-columns: 3fr 1fr; 
+                
+                /* 세로 높이: 헤더(자동) - 콘텐츠(남은공간) - 푸터(자동) */
+                grid-template-rows: 80px 1fr 60px;
+
+                /* 영역 재배치: 헤더와 푸터는 2칸 차지, 메인과 사이드바는 나란히 */
+                grid-template-areas: 
+                    "header header"
+                    "main   sidebar"
+                    "footer footer";
+            }
+        }
+
+        /* 4. 시맨틱 태그별 스타일 (영역 할당) */
+        header {
+            grid-area: header;
+            background-color: #34495e; /* 짙은 남색 */
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 8px;
+        }
+
+        main {
+            grid-area: main;
+            background-color: #e74c3c; /* 빨간색 */
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        aside {
+            grid-area: sidebar;
+            background-color: #f1c40f; /* 노란색 */
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        footer {
+            grid-area: footer;
+            background-color: #2c3e50; /* 검정색에 가까운 남색 */
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 8px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="layout-container">
+        <header>
+            <h1>HEADER</h1>
+        </header>
+
+        <main>
+            <h2>Main Content</h2>
+            <p>화면 크기를 조절해 보세요.</p>
+            <p>768px 이상에서는 사이드바가 오른쪽으로 이동하고,</p>
+            <p>그 이하에서는 사이드바가 메인 콘텐츠 아래로 내려갑니다.</p>
+        </main>
+
+        <aside>
+            <h3>Sidebar</h3>
+            <ul>
+                <li>Menu 1</li>
+                <li>Menu 2</li>
+                <li>Menu 3</li>
+            </ul>
+        </aside>
+
+        <footer>
+            <p>FOOTER</p>
+        </footer>
+    </div>
+
+</body>
+</html>
