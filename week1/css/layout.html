@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Grid & Flex Layout</title>
+    <style>
+        /* 기본 리셋 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        /* [1] 전체 레이아웃 (GRID 사용) 
+           - 큰 덩어리(검색 영역, 컨텐츠 영역)를 위아래로 배치할 때 유용
+        */
+        .main-container {
+            display: grid;
+            /* 위쪽(검색)은 내용물 크기만큼(auto), 아래(컨텐츠)는 나머지 자동 */
+            grid-template-rows: auto auto; 
+            gap: 20px; /* 두 영역 사이의 간격 */
+            max-width: 800px; /* 전체 최대 너비 제한 */
+            width: 100%;
+        }
+
+        /* [2] 검색 영역 (FLEXBOX 사용)
+           - 입력창과 버튼을 가로로 나란히 놓고, 비율을 조정할 때 유용
+        */
+        .search-area {
+            display: flex;
+            gap: 10px; /* input과 button 사이 간격 */
+            align-items: center; /* 세로 중앙 정렬 */
+        }
+
+        /* 검색 인풋창: 남은 공간을 꽉 채움 (flex: 1) */
+        .search-input {
+            flex: 1; 
+            padding: 10px;
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 14px;
+        }
+
+        /* 검색 버튼: 고정 크기 유지 */
+        .search-btn {
+            width: 80px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* [3] 목록형 데이터 영역 스타일 */
+        .content-area {
+            border: 1px solid #ccc; /* 외곽선 */
+            padding: 20px;
+            min-height: 150px; /* 최소 높이 확보 */
+        }
+
+        .content-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .divider {
+            border: 0;
+            height: 1px;
+            background-color: #ccc; /* 회색 구분선 */
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        
+        <div class="search-area">
+            <input type="text" class="search-input" placeholder="키워드 입력">
+            <button class="search-btn">검색</button>
+        </div>
+
+        <div class="content-area">
+            <h2 class="content-title">목록형 데이터 영역</h2>
+            <hr class="divider">
+            </div>
+
+    </div>
+
+</body>
+</html>
