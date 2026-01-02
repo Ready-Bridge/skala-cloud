@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 여행 앨범</title>
+    <style>
+        .album-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* 사진들을 가운데로 모음 */
+            gap: 20px;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        figure {
+            margin: 0;
+            /* [핵심 설정]
+               0: 커지지 마라 (모든 사진 크기 동일 유지)
+               1: 작아져라 (화면 좁으면 줄어듦 - 반응형)
+               300px: 기준 너비
+            */
+            flex: 0 1 300px; 
+            text-align: center;
+        }
+
+        img {
+            width: 100%;        /* 액자 너비에 꽉 차게 */
+            height: 250px;      /* 높이는 250px로 딱 고정 */
+            object-fit: cover;  /* 비율 깨지지 않게 자르기 */
+            border-radius: 8px;
+            display: block;
+        }
+
+        figcaption {
+            margin-top: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="text-align: center;">✈️ 나의 여행 앨범 💿</h1>
+
+    <div style="text-align: center;">
+        <audio controls loop>
+            <source src="media/travel-bgm.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <hr>
+
+    <div class="album-list">
+
+        <figure>
+            <picture>
+                <source media="(min-width: 800px)" srcset="media/familia.jpg">
+                <img src="media/familia.jpg" alt="파밀리아 대성당">
+            </picture>
+            <figcaption>🇪🇸 파밀리아 대성당</figcaption>
+        </figure>
+
+        <figure>
+            <picture>
+                <source media="(min-width: 800px)" srcset="media/rome.jpg">
+                <img src="media/rome.jpg" alt="로마 콜로세움">
+            </picture>
+            <figcaption>🇮🇹 로마 콜로세움</figcaption>
+        </figure>
+
+        <figure>
+            <picture>
+                <source media="(min-width: 800px)" srcset="media/opera.jpg">
+                <img src="media/opera.jpg" alt="오페라 하우스">
+            </picture>
+            <figcaption>🇦🇺 오페라 하우스</figcaption>
+        </figure>
+
+    </div>
+
+</body>
+</html>
