@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Flexbox 중앙 정렬</title>
+    <style>
+        body {
+            margin: 0; /* 기본 여백 제거 */
+        }
+
+        /* 1. 부모 컨테이너 스타일 (핵심) */
+        .container {
+            display: flex;            /* 플렉스 박스 선언 */
+            justify-content: center;  /* 주축(가로) 중앙 정렬 */
+            align-items: center;      /* 교차축(세로) 중앙 정렬 */
+            
+            height: 100vh;            /* 화면 전체 높이 사용 (이게 있어야 세로 중앙이 됨) */
+            gap: 20px;                /*박스 사이의 간격*/
+            background-color: #f0f2f5;
+        }
+
+        /* 2. 자식 박스 스타일 */
+        .box {
+            margin: 100px;
+            width: 100px;
+            height: 100px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+            /* 박스 내부 글자도 정가운데로 맞추기 (Tip) */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 박스별 색상 */
+        .box:nth-child(1) { background-color: #e74c3c; } /* 빨강 */
+        .box:nth-child(2) { background-color: #f1c40f; } /* 노랑 */
+        .box:nth-child(3) { background-color: #3498db; } /* 파랑 */
+
+        /* 그리드 컨테이너 스타일 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5열 그리드 */
+            gap: 20px;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }   
+        .grid-box {
+            background-color: #2ecc71; /* 초록 */
+            height: 100px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>플렉스 박스 예제</h1>
+    <div class="container">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
+
+    <h1> Grid 예제 </h1>
+    <div class="grid-container">
+        <div class="grid-box"></div>
+        <div class="grid-box"></div>
+        <div class="grid-box"></div>
+        <div class="grid-box"></div>
+        <div class="grid-box"></div>
+    </div>
+
+</body>
+</html>
