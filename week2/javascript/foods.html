@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>식량 배급 시스템</title>
+    <style>
+        /* CSS: 시각적 스타일링을 구조와 분리 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f8f9fa;
+        }
+        
+        h1 {
+            color: #343a40;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* 테두리 둥글게 처리 */
+            max-width: 600px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        thead {
+            background-color: #007bff;
+            color: white;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📋 식량 분배 결과</h1>
+    <div id="app" class="table-wrapper">
+    </div>
+
+    <script>
+        /**
+         * [실습 데이터 정의]
+         * 요구사항에 명시된 데이터셋입니다.
+         * 변경 불가능한 상수는 const를 사용합니다.
+         */
+        const foods = [
+            "쌀", "보리", "콩", "감자", "양파",
+            "마늘", "배추", "무", "고구마", "호박"
+        ];
+
+        const poors = ["철수", "영희", "민수"];
+
+        /**
+         * [로직 함수] 식량을 사람들에게 순차적으로 분배합니다.
+         * 역할: 데이터 가공 (Logic)
+         * @param {string[]} foodList - 배급할 식량 배열
+         * @param {string[]} personList - 받을 사람 이름 배열
+         * @returns {Object[]} - { name, items } 형태의 객체 배열
+         */
+        const distributeFoods = (foodList, personList) => {
+            // 1. 결과 배열 초기화: 각 사람별로 빈 items 배열을 가진 객체 생성
+            const results = personList.map(name => ({ name, items: [] }));
+
+            // 2. 순차 분배 (Round Robin 방식)
+            foodList.forEach((food, index) => {
+                // 나머지 연산(%)을 통해 인덱스 순환: 0, 1, 2, 0, 1, 2 ...
+                const recipientIndex = index % personList.length;
+                results[recipientIndex].items.push(food);
+            });
+
+            return results;
+        };
+
+        /**
+         * [렌더링 함수] 데이터를 받아 HTML Table 문자열을 생성하고 DOM에 주입합니다.
+         * 역할: 화면 출력 (View)
+         * @param {Object[]} data - 출력할 결과 데이터
+         * @param {string} targetId - 테이블을 삽입할 부모 요소의 ID
+         */
+        const renderTable = (data, targetId) => {
+            const container = document.getElementById(targetId);
+            
+            if (!container) {
+                console.error(`ID가 '${targetId}'인 요소를 찾을 수 없습니다.`);
+                return;
+            }
+
+            // 가독성을 위해 map과 join을 사용하여 HTML 문자열 조립
+            const rowsHTML = data.map(person => `
+                <tr>
+                    <td><strong>${person.name}</strong></td>
+                    <td>${person.items.join(', ')}</td>
+                </tr>
+            `).join('');
+
+            const tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>이름 (Name)</th>
+                            <th>받은 식량 목록 (Items)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rowsHTML}
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = tableHTML;
+        };
+
+        // --- 실행부 (Main) ---
+        
+        // 1. 로직 실행
+        const distributionResults = distributeFoods(foods, poors);
+
+        // 2. 결과 출력 (DOM 조작)
+        renderTable(distributionResults, 'app');
+        
+        // (디버깅용) 콘솔에서도 데이터 구조 확인 가능
+        // console.table(distributionResults); 
+    </script>
+</body>
+</html>
