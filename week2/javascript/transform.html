@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>홍길동 변신</title>
+</head>
+<body>
+    <script>
+        // 1. prompt를 통해 사용자 입력 받기
+        const input = prompt("무엇으로 변신하시겠습니까?");
+
+        // 2. 입력 값 유무 확인 및 결과 출력
+        if (input) {
+            // 입력 값이 존재하는 경우 (확인 버튼 클릭 + 텍스트 있음)
+            document.write("<h1>홍길동 변신 – " + input + "!</h1>");
+        } else {
+            // 입력 값이 없는 경우 (취소 버튼 클릭 또는 빈 칸으로 확인)
+            document.write("<h1>연기처럼 사라졌습니다.</h1>");
+        }
+    </script>
+</body>
+</html>
