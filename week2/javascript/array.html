@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배열</title>
+</head>
+<body>
+    <script>
+        const originals = ['사과', '바나나', '체리'];
+        
+        const copiedArray = [...originals];
+        
+        console.log("원본 배열:", originals);
+        console.log("복사된 배열:", copiedArray);
+
+        copiedArray[0] = '포도';
+
+        console.log("원본 배열:", originals);
+        console.log("복사된 배열:", copiedArray);
+
+        const copiedArray2 = originals.slice();
+
+        copiedArray2[1] = '망고';
+
+        console.log("원본 배열:", originals);
+        console.log("복사된 배열2:", copiedArray2);
+
+        const arr = [];
+        arr[0] = '첫번째 요소';
+        arr[5] = '여섯번째 요소';
+
+        console.log("배열:", arr, "길이:", arr.length);
+
+        for(let i = 0; i < arr.length; i++) {
+            console.log(`인덱스 ${i}:`, arr[i]);
+        }
+
+        for(const element of arr) {
+            console.log("for...of:", element);
+        }
+
+        const array = [
+            [0, 1, 2, 3],
+            [4, 5, 6, 7],
+            [8, 9, 10, 11]
+            ];
+
+        console.table(array);
+
+        console.log(copiedArray.join('-'));
+
+        
+    </script>
+</body>
+</html>
