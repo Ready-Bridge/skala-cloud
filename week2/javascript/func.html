@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>함수 deconstructing</title>
+</head>
+<body>
+    <script>
+        function buildObject(name, age) {
+            return { name: name, age: age, className: "클라우드반", address: "분당구 정자동"};
+        }
+
+        const person = buildObject("동길홍", 30);
+        console.log(person.name, person.className);
+
+        const { name, className } = buildObject("홍길동", 25); // 함수 반환값에서 name 프로퍼티만 추출
+        console.log(name, className);
+    </script>
+</body>
+</html>
