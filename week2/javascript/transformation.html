@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>변신 게임</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .option-box { margin-bottom: 20px; }
+        label { margin-right: 15px; cursor: pointer; }
+        #result-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px dashed #4CAF50;
+            background-color: #f9f9f9;
+            font-weight: bold;
+            color: #333;
+            display: none; /* 처음에 숨김 */
+        }
+    </style>
+</head>
+<body>
+
+    <h2>무엇으로 변신하시겠습니까?</h2>
+
+    <div class="option-box">
+        <label>
+            <input type="radio" name="character" value="🦸‍♂️ 슈퍼 히어로"> 슈퍼 히어로
+        </label>
+        <label>
+            <input type="radio" name="character" value="🐯 용맹한 호랑이"> 용맹한 호랑이
+        </label>
+        <label>
+            <input type="radio" name="character" value="🤖 최첨단 로봇"> 최첨단 로봇
+        </label>
+    </div>
+
+    <button id="transform-btn">변신 버튼</button>
+
+    <div id="result-box"></div>
+
+    <script>
+        // 1. 버튼과 결과 박스 요소 선택
+        const btn = document.getElementById("transform-btn");
+        const resultBox = document.getElementById("result-box");
+
+        // 2. 버튼에 클릭 이벤트 리스너 추가
+        btn.addEventListener("click", () => {
+            
+            // 3. 현재 체크된(checked) 라디오 버튼 찾기
+            // querySelector를 쓰면 CSS 선택자처럼 편하게 찾을 수 있습니다.
+            const selectedRadio = document.querySelector('input[name="character"]:checked');
+
+            if (selectedRadio) {
+                // 선택된 값이 있을 경우
+                const value = selectedRadio.value;
+                resultBox.style.display = "block"; // 박스 보이기
+                resultBox.innerHTML = `✨ 짠! <strong>${value}</strong>(으)로 변신 완료!`;
+            } else {
+                // 아무것도 선택하지 않았을 경우
+                alert("변신할 대상을 먼저 선택해주세요!");
+            }
+        });
+    </script>
+</body>
+</html>
