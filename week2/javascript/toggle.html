@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>ClassList Toggle 예제</title>
+    <style>
+        /* 요청하신 스타일 클래스 */
+        .highlight {
+            background-color: yellow;
+            color: red;
+            font-weight: bold;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <p id="target-text">이 문장을 강조해보세요!</p>
+
+    <button id="toggle-btn">강조 토글</button>
+
+    <script>
+        // 1. 제어할 요소 선택
+        const textElement = document.getElementById("target-text");
+        const button = document.getElementById("toggle-btn");
+
+        // 2. 버튼에 클릭 이벤트 리스너 추가
+        button.addEventListener("click", function() {
+            
+            // 3. classList.toggle() 사용
+            // 'highlight' 클래스가 있으면 제거하고, 없으면 추가합니다.
+            textElement.classList.toggle("highlight");
+            
+        });
+    </script>
+</body>
+</html>
