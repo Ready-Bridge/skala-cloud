@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>홍길동 분신 실습</title>
+</head>
+<body>
+    <h1>홍길동 분신 생성 결과</h1>
+    <p>F12를 눌러 개발자 도구의 [Console] 탭을 확인하세요.</p>
+
+    <script>
+        // 1. 진짜 홍길동 정의
+        const realHong = {
+            name: "홍길동",
+            age: 25,
+            job: "의적",
+            skills: ["검술", "전략", "분신"],
+            shadow: {
+                color: "검은색"
+            }
+        };
+
+        // 2. 가짜 홍길동 생성 (깊은 복사 후 속성 조작)
+        // 단계 1: 깊은 복사 (원본과 완전히 분리된 객체 생성)
+        const fakeHong = structuredClone(realHong);
+
+        // 단계 2: 그림자 속성 제거 (가짜는 그림자가 없음)
+        delete fakeHong.shadow;
+
+        // 단계 3: "분신" 기술 제외 (배열 필터링)
+        fakeHong.skills = fakeHong.skills.filter(skill => skill !== "분신");
+
+        // 3. 결과 출력 (비교 확인)
+        console.log("=== 원본(진짜 홍길동) ===");
+        console.log(realHong); 
+        // 결과 확인 포인트: shadow가 있고, skills에 '분신'이 그대로 있어야 함
+
+        console.log("=== 복사본(가짜 홍길동) ===");
+        console.log(fakeHong); 
+        // 결과 확인 포인트: shadow가 없고, skills에 '분신'이 없어야 함
+    </script>
+</body>
+</html>
