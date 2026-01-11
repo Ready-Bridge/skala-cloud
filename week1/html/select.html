@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>좋아하는 과일</title>
+</head>
+<body>
+    <h1>좋아하는 과일</h1>
+
+    <select id="fruitSelect">
+        <option value="">-- 과일 선택 --</option>
+        <option value="사과">사과</option>
+        <option value="바나나">바나나</option>
+        <option value="포도">포도</option>
+        <option value="오렌지">오렌지</option>
+    </select>
+    <p>선택한 과일: <span id="selectedFruit"></span></p>
+    <script>
+        const fruitSelect = document.getElementById('fruitSelect');
+        const selectedFruit = document.getElementById('selectedFruit');
+
+        fruitSelect.addEventListener('change', function() {
+            selectedFruit.textContent = fruitSelect.value;
+        });
+    </script>
+</body>
+</html>

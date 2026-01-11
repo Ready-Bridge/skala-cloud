@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS 테마 전환 예제</title>
+    <style>
+        /* 1. CSS 변수 정의 (:root는 기본 화이트 테마) 
+         */
+        :root {
+            --bg-color: #f0f2f5;          /* 전체 배경 */
+            --text-color: #333333;        /* 기본 글자 */
+            --card-bg: #ffffff;           /* 카드 배경 */
+            --primary-color: #3498db;     /* 포인트 컬러 */
+            --border-color: #ccc;         /* 테두리 */
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* 2. 다크 테마 변수 재정의 
+         body 태그 안에 있는 #dark 라디오 버튼이 체크되면(:checked),
+         body 하위의 모든 변수 값을 다크 모드용으로 변경합니다.
+         */
+        body:has(#dark:checked) {
+            --bg-color: #2c3e50;
+            --text-color: #ecf0f1;
+            --card-bg: #34495e;
+            --primary-color: #e74c3c; /* 다크 모드에선 빨간색 포인트 */
+            --border-color: #555;
+            --shadow: 0 4px 6px rgba(0,0,0,0.4);
+        }
+
+        /* 3. 기본 레이아웃 및 스타일 적용 (변수 사용) */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Noto Sans KR', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            
+            /* 테마 전환 시 색상이 부드럽게 바뀌도록 설정 */
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* 컨트롤 패널 (라디오 버튼 영역) */
+        .theme-controls {
+            margin-bottom: 30px;
+            background-color: var(--card-bg);
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 20px;
+            transition: background-color 0.4s ease;
+        }
+
+        .theme-controls label {
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 컨텐츠 박스 */
+        .card {
+            width: 300px;
+            padding: 40px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease; /* 모든 속성 부드럽게 */
+        }
+
+        h1 { margin-top: 0; }
+
+        .btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.4s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-controls">
+        <label>
+            <input type="radio" name="theme" id="light" checked> 
+            ☀️ Light
+        </label>
+        <label>
+            <input type="radio" name="theme" id="dark"> 
+            🌙 Dark
+        </label>
+    </div>
+
+    <div class="card">
+        <h1>Theme Changer</h1>
+        <p>CSS 변수와 라디오 버튼만을 이용하여<br>테마를 전환하는 예제입니다.</p>
+        <button class="btn">Button</button>
+    </div>
+
+</body>
+</html>

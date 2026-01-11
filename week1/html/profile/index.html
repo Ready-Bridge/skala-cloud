@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한준교님의 프로필</title>
+    <style>
+        /* 전체적인 레이아웃과 디자인을 위한 CSS */
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        
+        /* 헤더 스타일 */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        /* 메인 컨텐츠 컨테이너 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* 프로필 섹션 */
+        #profile {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        #profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%; /* 원형 이미지 */
+            object-fit: cover;
+            border: 3px solid #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        /* 각 아티클(구획) 스타일 */
+        article {
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            border-left: 5px solid #2c3e50;
+            padding-left: 10px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        /* 리스트 스타일 */
+        ul {
+            background-color: #f9f9f9;
+            padding: 20px 40px;
+            border-radius: 8px;
+        }
+
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+            width: 30%;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* 강조 스타일 (SKALA) */
+        .highlight {
+            background-color: #fff3cd !important; /* 노란색 배경 강조 */
+            font-weight: bold;
+            color: #d35400;
+        }
+
+        /* 링크 스타일 */
+        .links a {
+            display: inline-block;
+            margin-right: 15px;
+            text-decoration: none;
+            color: white;
+            background-color: #3498db;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .links a:hover {
+            background-color: #2980b9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #ccc;
+            font-size: 0.8rem;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>스칼라 여러분 안녕하십니까 저를 소개해보겠습니다.</h1>
+    </header>
+
+    <div class="container">
+        
+        <section id="profile">
+            <img src="profile.jpg" alt="한준교 프로필 사진">
+            
+            <article>
+                <h2>Who am I?</h2>
+                <p>
+                    안녕하세요. <strong>이름은 한준교</strong>이며, <strong>나이는 25세(2001년생)</strong>입니다.<br>
+                    <strong>소프트웨어학부</strong>를 전공하고 있으며, 건강한 신체에 건강한 정신이 깃든다는 마음으로<br>
+                    <strong>취미는 운동</strong>을 즐겨하고 있습니다.
+                </p>
+            </article>
+        </section>
+
+        <section id="details">
+            
+            <article>
+                <h2>Interests & Favorites</h2>
+                <ul>
+                    <li><strong>좋아하는 것 (운동):</strong> 헬스, 축구, 수영, 런닝, 배드민턴 등 모든 운동을 좋아합니다.</li>
+                    <li><strong>기술적 관심사:</strong> 쿠버네티스 (Kubernetes)</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>Tech Stacks</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>기술 분야</th>
+                            <th>숙련도</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AI</td>
+                            <td>경험 없음</td>
+                        </tr>
+                        <tr>
+                            <td>Python</td>
+                            <td>하</td>
+                        </tr>
+                        <tr>
+                            <td>DB / SQL</td>
+                            <td>중</td>
+                        </tr>
+                        <tr>
+                            <td>Java</td>
+                            <td>중</td>
+                        </tr>
+                        <tr>
+                            <td>Node.js</td>
+                            <td>하</td>
+                        </tr>
+                        <tr>
+                            <td>Spring Boot</td>
+                            <td>중</td>
+                        </tr>
+                        <tr>
+                            <td>AWS</td>
+                            <td>중</td>
+                        </tr>
+                        <tr>
+                            <td>프로젝트 아이디어 내기</td>
+                            <td>중</td>
+                        </tr>
+                        <tr>
+                            <td>힘든 팀원들 공감 및 위로 + 긍정적인 분위기 조성</td>
+                            <td>상</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article>
+                <h2>Timeline</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>기간</th>
+                            <th>내용</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2001.12 ~</td>
+                            <td>서울에서 출생</td>
+                        </tr>
+                        <tr>
+                            <td>2005.03 ~</td>
+                            <td>유치원 입학</td>
+                        </tr>
+                        <tr>
+                            <td>2008.03 ~</td>
+                            <td>의정부로 이사 및 초등학교 입학</td>
+                        </tr>
+                        <tr>
+                            <td>2010.03 ~</td>
+                            <td>고양시로 이사 및 전학</td>
+                        </tr>
+                        <tr>
+                            <td>2014.03 ~</td>
+                            <td>서울로 이사 및 중학교 입학</td>
+                        </tr>
+                        <tr>
+                            <td>2017.03 ~</td>
+                            <td>고등학교 입학</td>
+                        </tr>
+                        <tr>
+                            <td>2020.03 ~</td>
+                            <td>대학교 입학</td>
+                        </tr>
+                        <tr>
+                            <td>2021.02 ~</td>
+                            <td>대학교 휴학</td>
+                        </tr>
+                        <tr>
+                            <td>2021.03 ~</td>
+                            <td>군대 입대</td>
+                        </tr>
+                        <tr>
+                            <td>2023.03 ~</td>
+                            <td>대학교 복학 및 교내 웹 개발 동아리 활동</td>
+                        </tr>
+                        <tr>
+                            <td>2024.07 ~</td>
+                            <td>빅데이터 연합 동아리 활동</td>
+                        </tr>
+                        <tr>
+                            <td>2024.12 ~</td>
+                            <td>소프트웨어학부 학생회 활동</td>
+                        </tr>
+                        <tr>
+                            <td>2025.01 ~</td>
+                            <td>서울대병원 랩실 활동</td>
+                        </tr>
+                        <tr>
+                            <td>2025.02 ~</td>
+                            <td>졸업준비위원회 활동</td>
+                        </tr>
+                        <tr class="highlight">
+                            <td>2025.12 ~</td>
+                            <td>SKALA 시작</td>
+                        </tr>
+                        <tr>
+                            <td>2026.02 ~</td>
+                            <td>졸업예정</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </section>
+
+        <section id="links" class="links">
+            <article>
+                <h2>Links</h2>
+                <p>더 자세한 정보나 제가 즐겨찾는 사이트는 아래 링크를 확인해주세요.</p>
+                <a href="https://hanjungyo.tistory.com" target="_blank">📄 기술 블로그 (Tistory)</a>
+                <a href="https://mc.skhystec.com/V3/menu.html" target="_blank">🍽️ 좋아하는 사이트 (메뉴)</a>
+            </article>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Han Jung-yo. All rights reserved.</p>
+        <p>Software Major Profile Page Practice</p>
+    </footer>
+
+</body>
+</html>

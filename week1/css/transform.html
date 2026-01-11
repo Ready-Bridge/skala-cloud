@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Transform 효과 테스트</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+
+        /* 컨트롤 패널 (버튼 영역) */
+        .controls {
+            margin-bottom: 50px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button.reset {
+            background-color: #e74c3c;
+        }
+        button.reset:hover {
+            background-color: #c0392b;
+        }
+
+        /* 3D 효과를 위한 무대 설정 (원근감) */
+        .stage {
+            perspective: 600px; /* 3D 회전 시 입체감을 주기 위함 */
+            width: 200px;
+            height: 200px;
+            border: 2px dashed #ccc; /* 원래 위치 표시용 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 변형될 타겟 박스 */
+        .box {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, #f1c40f, #e67e22);
+            color: white;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            
+            /* 핵심: 변형이 부드럽게 일어나도록 설정 */
+            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* 현재 적용된 코드 표시 */
+        .code-display {
+            margin-top: 30px;
+            font-family: monospace;
+            background: #333;
+            color: #0f0;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button onclick="applyEffect('translate')">1. 이동 (Translate)</button>
+        <button onclick="applyEffect('rotate')">2. 회전 (Rotate)</button>
+        <button onclick="applyEffect('scale')">3. 크기 (Scale)</button>
+        <button onclick="applyEffect('skew')">4. 비틀기 (Skew)</button>
+        <button onclick="applyEffect('rotate3d')">5. 3D 회전 (RotateY)</button>
+        <button class="reset" onclick="applyEffect('reset')">초기화 (Reset)</button>
+    </div>
+
+    <div class="stage">
+        <div class="box" id="targetBox">Original</div>
+    </div>
+
+    <div class="code-display" id="codeText">transform: none;</div>
+
+    <script>
+        const box = document.getElementById('targetBox');
+        const codeText = document.getElementById('codeText');
+
+        function applyEffect(type) {
+            let cssValue = '';
+            let text = '';
+
+            switch(type) {
+                case 'translate':
+                    // X축 50px, Y축 -50px 이동
+                    cssValue = 'translate(50px, -50px)';
+                    text = '이동됨!';
+                    break;
+                
+                case 'rotate':
+                    // 45도 회전
+                    cssValue = 'rotate(45deg)';
+                    text = '회전됨!';
+                    break;
+                
+                case 'scale':
+                    // 1.2배 확대
+                    cssValue = 'scale(1.2)';
+                    text = '커짐!';
+                    break;
+                
+                case 'skew':
+                    // X축으로 20도 비틀기
+                    cssValue = 'skew(20deg)';
+                    text = '비틀림!';
+                    break;
+                
+                case 'rotate3d':
+                    // Y축 기준 180도 회전 (뒤집기)
+                    cssValue = 'rotateY(180deg)';
+                    text = '3D 회전!';
+                    break;
+                
+                case 'reset':
+                    cssValue = 'none';
+                    text = 'Original';
+                    break;
+            }
+
+            // 1. 박스에 CSS transform 적용
+            box.style.transform = cssValue;
+            
+            // 2. 박스 내부 글자 변경
+            box.innerText = text;
+
+            // 3. 하단에 CSS 코드 텍스트 업데이트
+            codeText.innerText = `transform: ${cssValue};`;
+        }
+    </script>
+
+</body>
+</html>

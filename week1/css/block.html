@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Block vs Inline Display 비교</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h2 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+
+        /* 공통 스타일: 박스 모양을 잘 보이게 하기 위함 */
+        div {
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        /* 1. 블록 (Block) 스타일 - div의 기본값 */
+        .block-box {
+            display: block; /* div는 원래 block이지만 명시함 */
+            background-color: #e74c3c; /* 빨간색 */
+            margin-bottom: 10px;
+            
+            /* 블록 요소는 너비와 높이 설정이 가능합니다 */
+            width: auto; /* 기본값 (부모 너비 가득 채움) */
+        }
+
+        /* 2. 인라인 (Inline) 스타일 - CSS로 변경 */
+        .inline-box {
+            display: inline; /* 핵심: 블록 요소를 인라인으로 변경 */
+            background-color: #3498db; /* 파란색 */
+            margin: 10px; /* 주의: 인라인은 상하 여백이 잘 안 먹힘 */
+            
+            /* 인라인 요소는 width, height가 적용되지 않습니다 (무시됨) */
+            width: 300px; 
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CSS Display 속성 비교</h1>
+    <p>모두 똑같은 <code>&lt;div&gt;</code> 태그이지만, CSS <strong>display</strong> 속성에 따라 배치가 달라집니다.</p>
+
+    <h2>1. Block (블록 요소)</h2>
+    <p>특징: 혼자서 한 줄을 다 차지합니다. (줄바꿈 발생)</p>
+    
+    <div class="block-box">블록 박스 1 (div 기본값)</div>
+    <div class="block-box">블록 박스 2 (너비가 100%입니다)</div>
+    <div class="block-box" style="width: 200px;">블록 박스 3 (너비를 줄여도 줄바꿈 됨)</div>
+
+
+    <h2>2. Inline (인라인 요소)</h2>
+    <p>특징: 글자처럼 옆으로 나란히 배치됩니다. 내용만큼만 크기를 가집니다.</p>
+
+    <div class="inline-box">인라인 박스 1</div>
+    <div class="inline-box">인라인 박스 2</div>
+    <div class="inline-box">인라인 박스 3 (내용이 길어지면 박스도 커짐)</div>
+    
+    <br><br>
+    <p>
+        <strong>주의:</strong> 인라인 박스는 CSS에서 
+        <code>width: 300px</code>를 줬음에도 불구하고 
+        <strong>사이즈가 적용되지 않고 무시됩니다.</strong>
+    </p>
+
+</body>
+</html>

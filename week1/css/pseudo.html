@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가상 클래스 예제</title>
+
+    <style>
+        .box{
+            width: 200px;
+            height: 200px;
+            background-color: lightcoral;
+            border: 5px solid darkred;
+            margin: 20px;
+        }
+        .box:hover {
+            background-color: lightblue;
+            border-color: darkblue;
+        }
+        p::before {
+            content:"Before - ";
+            color: green;
+        }
+        p::after {
+            content:" - After";
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">HOVER</div>
+    <p>가상 클래스 문자열</p>
+</body>
+</html>
