@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>innerHTML vs textContent 예제</title>
+</head>
+<body>
+
+    <h3>1. innerHTML 결과 (태그 적용 됨)</h3>
+    <div id="html-div"></div>
+
+    <h3>2. textContent 결과 (태그 문자 그대로 보임)</h3>
+    <div id="text-div"></div>
+
+    <script>
+        // 1. 넣을 문자열 (HTML 태그 포함)
+        const content = "▪ <strong>안녕하세요</strong>, <em>홍길동</em>입니다.";
+
+        // 2. 요소 선택
+        const htmlElement = document.getElementById("html-div");
+        const textElement = document.getElementById("text-div");
+
+        // 3. innerHTML: 문자열 내의 태그를 해석(Parsing)하여 스타일을 적용합니다.
+        htmlElement.innerHTML = content;
+
+        // 4. textContent: 태그를 포함한 모든 문자를 단순 '글자(Text)'로 취급합니다.
+        textElement.textContent = content;
+    </script>
+</body>
+</html>

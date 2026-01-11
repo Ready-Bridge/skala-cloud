@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS 문자열</title>
+</head>
+<body>
+    <script>
+        const str1 = "Hello \"안녕\"";
+        const str2 = 'World "세계"';
+        const str3 = `안녕하세요? ${str1} , ${str2} 입니다.`;
+
+        console.log(str1, str2, str3);
+
+        // const name = "홍길동\n활빈당"
+        const name = "홍길동<br>활빈당"
+
+        document.write("<h1>문자열 다루기</h1>");
+        document.write(name);
+        console.log(name);
+    </script>
+</body>
+</html>

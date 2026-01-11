@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 처리</title>
+    <style>
+        div {
+            width: 200px;
+            height:200px;
+            background-color: lightblue;
+        }
+        #output {
+            margin-top: 20px;
+            width: 400px;
+            height: 100px;
+            background-color: lightyellow;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div id="input" onclick="handleClick(event)" ondblclick="handleDblClick(event)" onmouseover="this.style.backgroundColor='lightblue'" onmouseout="this.style.backgroundColor='lightgreen'">
+    </div> -->
+
+
+    <div id="input"></div>
+    <div id="output"></div>
+
+    <script>
+        const inputDiv = document.getElementById('input');
+        
+        inputDiv.onclick = handleClick;
+        inputDiv.addEventListener('dblclick', handleDblClick);
+        
+        const outputDiv = document.getElementById('output');
+        
+        function handleClick(event) {
+            outputDiv.textContent = '클릭 이벤트가 발생했습니다!';
+            console.log('클릭!', event);
+        }
+
+        function handleDblClick(event) {
+            outputDiv.textContent = '더블 클릭 이벤트가 발생했습니다!';
+            console.log('더블 클릭!', event);
+        }
+
+    </script>
+</body>
+</html>

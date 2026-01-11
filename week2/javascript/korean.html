@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한국어 이름 확인</title>
+</head>
+<body>
+    <script>
+        function isAnyKorean(str) {
+            // [가-힣ㄱ-ㅎㅏ-ㅣ] : 완성형 + 자음 + 모음
+            // \s : 공백 허용 (띄어쓰기 포함하고 싶을 경우 추가)
+            const regex = /^[가-힣ㄱ-ㅎㅏ-ㅣ\s]+$/;
+            return regex.test(str);
+        }
+
+        console.log(`홍길동 : ${isAnyKorean("홍길동")}`);      
+        console.log(`Edward Lee : ${isAnyKorean("Edward Lee")}`);    
+        console.log(`샘킴 : ${isAnyKorean("샘킴")}`); 
+        console.log(`김철수 : ${isAnyKorean("김철수")}`);
+        console.log(`박지성 123 : ${isAnyKorean("박지성 123")}`);
+        console.log(`김수한무거북이두루미' : ${isAnyKorean("김수한무거북이두루미")}`);
+    </script>
+</body>
+</html>

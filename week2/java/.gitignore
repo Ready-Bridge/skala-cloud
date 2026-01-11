@@ -1,0 +1,52 @@
+# ==========================================
+# Java 전용 설정 (중복 제외)
+# ==========================================
+
+# 컴파일된 클래스 파일
+*.class
+
+# 패키지 파일 (빌드 결과물)
+*.jar
+*.war
+*.nar
+*.ear
+
+# ==========================================
+# 특정 디렉토리 제외 (요청하신 사항)
+# ==========================================
+example/
+mariadb_tmplt/
+
+# ==========================================
+# 빌드 도구 관련 (Maven / Gradle)
+# ==========================================
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.restoreBackup
+release.properties
+bundle.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+# build/ 는 기존 목록에 있으므로 중복 제외 가능하지만 명시적으로 관리 권장
+!gradle/wrapper/gradle-wrapper.jar
+
+# ==========================================
+# Eclipse 관련 (기존 목록에 없는 것)
+# ==========================================
+.metadata/
+.recommenders/
+bin/
+.project
+.classpath
+.settings/
+*.launch
+.factorypath

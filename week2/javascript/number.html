@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자-문자열 변환</title>
+</head>
+<body>
+    <script>
+        const num = 123;
+        const str = String(num);
+        
+        console.log("num: " + typeof num, "str: " + typeof str);
+
+        const str2 = "123";
+        const num2 = Number(str2);
+
+        console.log("num2 : " + typeof num2, num2);
+
+        const str3 = "123abc";
+        const num3 = Number(str3);
+
+        console.log("num3 : " + typeof num3, num3);
+
+        const str4 = "123abc";
+        const num4 = parseInt(str4, 10);
+
+        console.log("num4 : " + typeof num4, num4);
+
+        const str5 = "123abc";
+        const num5 = parseInt(str5, 16);
+
+        console.log("num5 : " + typeof num5, num5);
+
+        // const str6; // 에러
+
+        let str7; // undefined
+        let str8 = null; // null
+        let str9 = ""; // 빈 문자열
+
+        console.log(str7, str8, "str7 == str8 : " + (str7 == str8), "str7 === str8 : " + (str7 === str8)); 
+        console.log(str8, str9, "str8 == str9 : " + (str8 == str9), "str8 === str9 : " + (str8 === str9));
+
+        let str10 = 123;
+        let str11 = "123";
+
+        console.log("str10 == str11 : " + (str10 == str11), "str10 === str11 : " + (str10 === str11));
+    </script>
+</body>
+</html>

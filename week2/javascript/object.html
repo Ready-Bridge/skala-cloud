@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>객체</title>
+</head>
+<body>
+    <script>
+        const person = {
+            name: '홍길동',
+            age: 30,
+            skills: ['검술', '둔갑술', '말타기'],
+            greet: function() {
+                return `안녕하세요, 저는 ${this.name}입니다.`;
+            }
+        }
+
+        // console.log(person);
+        // console.log(person.name, person.skills);
+
+        // const student = {...person};
+        // const student = Object.assign({}, person);
+        const student = Object.create(person);
+        student.name = '이몽룡';
+        student.age = 20;
+        student.skills.push('서예');
+        console.log('student: ', student.greet(), student.hasOwnProperty('greet'));
+        console.log('person: ', person.greet(), person.hasOwnProperty('greet'));
+
+        // const skala = {}; // 빈 객체 생성 방법 1
+        const skala = new Object(); // 빈 객체 생성 방법 2
+        skala.className = "클라우드반";
+        skala["address"] = "성남시 분당구";
+
+        const key = "className";
+        console.log(skala[key]);
+
+        console.log(skala);
+
+        const msg = JSON.stringify(person);
+        console.log(msg, person);
+
+        const obj = JSON.parse(msg);
+        obj.name = "성춘향";
+        obj.skills.push("음악");
+        console.log(obj);
+    </script>
+</body>
+</html>
