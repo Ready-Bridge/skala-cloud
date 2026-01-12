@@ -118,6 +118,23 @@ public class SimpleAuthServer {
             serveResource(exchange, resourcePath, contentType);
         });
 
+        // GET /index -> main/index.html (로그인 후 메인 페이지)
+        server.createContext("/index", exchange -> {
+            if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+                methodNotAllowed(exchange);
+                return;
+            }
+            
+            // 세션 확인 (로그인 필요)
+            User user = resolveUser(exchange);
+            if (user == null) {
+                redirect(exchange, "/login");
+                return;
+            }
+            
+            serveResource(exchange, "main/index.html", "text/html; charset=utf-8");
+        });
+
         // POST /api/signup -> 회원가입
         server.createContext("/api/signup", exchange -> {
             if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
@@ -127,17 +144,25 @@ public class SimpleAuthServer {
             Map<String, String> params = parseFormBody(exchange);
             String username = params.get("username");
             String password = params.get("password");
+            String role = params.get("role");
 
             if (isBlank(username) || isBlank(password)) {
                 writeText(exchange, 400, "username and password are required");
                 return;
             }
 
+            if (isBlank(role) || (!"admin".equals(role) && !"user".equals(role))) {
+                writeText(exchange, 400, "role must be 'admin' or 'user'");
+                return;
+            }
+
             try {
-                authService.signUp(username, password);
+                authService.signUp(username, password, role);
                 redirect(exchange, "/login");
             } catch (SQLIntegrityConstraintViolationException dup) {
                 writeText(exchange, 400, "username already exists");
+            } catch (IllegalArgumentException iae) {
+                writeText(exchange, 400, iae.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
                 writeText(exchange, 500, "signup error");
@@ -194,10 +219,14 @@ public class SimpleAuthServer {
                         // "APP_AUTH=1; Path=/; Max-Age=3600; SameSite=Lax"
                 );
 
-                // 로그인 후, 직접 백엔드로 포워딩 테스트 완료
-                // redirect(exchange, "http://localhost:8008/index.html");
-                // 4) 로그인 후에 프론트엔드 메인 vue.js로 이동
-                redirect(exchange, "http://localhost:5174/intro_main.html");
+                // 4) 사용자 role 쿠키 추가 (JS에서 읽기 가능)
+                exchange.getResponseHeaders().add(
+                        "Set-Cookie",
+                        "USER_ROLE=" + user.getRole() + "; Path=/; SameSite=Lax"
+                );
+
+                // 5) 로그인 후 8080 서버의 /index로 리다이렉트
+                redirect(exchange, "/index");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -365,6 +394,7 @@ public class SimpleAuthServer {
         private Long id;
         private String username;
         private String password;
+        private String role;
 
         public Long getId() { return id; }
         public void setId(Long id) { this.id = id; }
@@ -374,6 +404,9 @@ public class SimpleAuthServer {
 
         public String getPassword() { return password; }
         public void setPassword(String password) { this.password = password; }
+
+        public String getRole() { return role; }
+        public void setRole(String role) { this.role = role; }
     }
 
     public interface UserRepository {
@@ -398,11 +431,12 @@ public class SimpleAuthServer {
 
         @Override
         public void save(User u) throws Exception {
-            String sql = "INSERT INTO users(username, password) VALUES(?, ?)";
+            String sql = "INSERT INTO users(username, password, role) VALUES(?, ?, ?)";
             try (Connection conn = getConnection();
                  PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, u.getUsername());
                 ps.setString(2, u.getPassword());
+                ps.setString(3, u.getRole());
                 ps.executeUpdate();
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     if (rs.next()) {
@@ -414,7 +448,7 @@ public class SimpleAuthServer {
 
         @Override
         public User findByUsername(String username) throws Exception {
-            String sql = "SELECT id, username, password FROM users WHERE username = ?";
+            String sql = "SELECT id, username, password, role FROM users WHERE username = ?";
             try (Connection conn = getConnection();
                  PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setString(1, username);
@@ -424,6 +458,7 @@ public class SimpleAuthServer {
                         u.setId(rs.getLong("id"));
                         u.setUsername(rs.getString("username"));
                         u.setPassword(rs.getString("password"));
+                        u.setRole(rs.getString("role"));
                         return u;
                     }
                 }
@@ -439,7 +474,12 @@ public class SimpleAuthServer {
             this.userRepository = userRepository;
         }
         // 회원가입
-        public void signUp(String username, String rawPassword) throws Exception {
+        public void signUp(String username, String rawPassword, String role) throws Exception {
+            // role 검증: admin 또는 user만 허용
+            if (isBlank(role) || (!"admin".equals(role) && !"user".equals(role))) {
+                throw new IllegalArgumentException("role must be 'admin' or 'user'");
+            }
+
             User existing = userRepository.findByUsername(username);
             if (existing != null) {
                 throw new SQLIntegrityConstraintViolationException("username already exists");
@@ -451,6 +491,7 @@ public class SimpleAuthServer {
             User u = new User();
             u.setUsername(username);
             u.setPassword(hashed); // 평문 대신 해시를 저장
+            u.setRole(role);
             userRepository.save(u);
         }
 
