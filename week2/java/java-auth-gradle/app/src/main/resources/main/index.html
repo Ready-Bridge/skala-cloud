@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKALA AI GPU 스케줄러 대시보드</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SKALA AI GPU 스케줄러 대시보드</h1>
+            <div class="user-profile" id="user-profile">
+                <span class="user-greeting">한준교[SKALA-개발팀]님 안녕하십니까</span>
+                <img src="https://i.pravatar.cc/40" alt="User Profile" class="profile-img">
+                <div class="dropdown-menu" id="dropdown-menu">
+                    <a href="#">마이페이지</a>
+                    <a href="#">로그아웃</a>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="top-section">
+                <section class="dashboard-overview">
+                    <h2>대시보드 개요</h2>
+                    <div class="metrics">
+                        <div class="metric">
+                            <h3>GPU 사용량</h3>
+                            <p>78%</p>
+                        </div>
+                        <div class="metric">
+                            <h3>Memory 사용량</h3>
+                            <p>65%</p>
+                        </div>
+                        <div class="metric">
+                            <h3>대기중인 작업</h3>
+                            <p>8</p>
+                        </div>
+                        <div class="metric">
+                            <h3>가용 GPU</h3>
+                            <p>4</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="daily-usage">
+                    <h2>오늘 예약 현황</h2>
+                    <div class="timeline-container" id="usage-graph">
+                        <!-- JS will generate this -->
+                    </div>
+                </section>
+            </div>
+
+            <section class="job-queue">
+                <h2>작업 대기열</h2>
+                <table id="job-table">
+                    <thead>
+                        <tr>
+                            <th>작업 ID</th>
+                            <th>작업 이름</th>
+                            <th>사용자</th>
+                            <th>상태</th>
+                            <th>(예상) 시작 시간</th>
+                            <th>(예상) 종료 시간</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-status="Running" data-progress="65" data-end-time="18:30">
+                            <td>#2041</td>
+                            <td>신제품 렌더링</td>
+                            <td>한준교</td>
+                            <td class="status-running">진행중</td>
+                            <td>09:00</td>
+                            <td>18:30</td>
+                        </tr>
+                        <tr data-status="Waiting" data-reason="GPU 리소스 부족" data-queue-position="1" data-wait-time="45">
+                            <td>#2042</td>
+                            <td>모델 학습 (Alpha)</td>
+                            <td>한준교</td>
+                            <td class="status-waiting">대기중</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr data-status="Failed" data-fail-reason="메모리 초과 (CUDA out of memory)">
+                            <td>#2038</td>
+                            <td>GAN 모델 실험</td>
+                            <td>한준교</td>
+                            <td class="status-failed">실패</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <button id="open-modal-btn" class="floating-btn">GPU 사용 신청</button>
+
+    <!-- Modals -->
+    <div id="job-modal" class="modal-container" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>GPU 사용 신청</h2>
+            
+            <div class="form-grid">
+                <input type="text" id="job-name-input" placeholder="작업 이름" class="full-width">
+                
+                <select id="job-type-select">
+                    <option value="">작업 유형 선택</option>
+                    <option value="training">모델 학습</option>
+                    <option value="rendering">3D 렌더링</option>
+                    <option value="ci-cd">CI/CD 스크립트</option>
+                </select>
+                
+                <select id="job-urgency-select">
+                    <option value="low">긴급도: 낮음</option>
+                    <option value="medium">긴급도: 보통</option>
+                    <option value="high">긴급도: 높음</option>
+                </select>
+                
+                <div id="type-specific-inputs" class="full-width">
+                    <div id="training-inputs" class="type-input" style="display: none;">
+                        <label>모델링 파일 업로드 (.zip, .h5, .pth)</label>
+                        <input type="file">
+                        <small>파일을 첨부하면 예상 소요 시간을 더 정확히 예측할 수 있습니다.</small>
+                    </div>
+                    <div id="rendering-inputs" class="type-input" style="display: none;">
+                        <label>렌더링 파일 업로드 (.blend, .max)</label>
+                        <input type="file">
+                        <small>파일을 첨부하면 예상 소요 시간을 더 정확히 예측할 수 있습니다.</small>
+                    </div>
+                    <div id="ci-cd-inputs" class="type-input" style="display: none;">
+                        <input type="text" placeholder="GitHub Repository URL">
+                        <small>Repository 연동 시 CI/CD 스크립트의 복잡도를 분석합니다.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scheduler">
+                <div class="date-selector" id="date-selector"></div>
+                <div class="timeline-container" id="timeline">
+                    <!-- JS will generate this -->
+                </div>
+            </div>
+
+            <button id="request-quote-btn" class="submit-btn">견적 요청하기</button>
+        </div>
+    </div>
+    
+    <div id="progress-modal" class="modal-container" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="progress-modal-title">작업 진행 상태</h2>
+            <div id="progress-modal-body"></div>
+        </div>
+    </div>
+
+    <div id="loading-modal" class="modal-container" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p>AI가 견적을 계산중입니다...</p>
+    </div>
+
+    <div id="quote-modal" class="modal-container" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>AI 견적서</h2>
+            <div class="quote-details">
+                <div class="quote-item"><strong>요청자 정보:</strong> <span id="quote-user">한준교[SKALA-개발팀]</span></div>
+                <div class="quote-item"><strong>작업 유형:</strong> <span id="quote-job-type"></span></div>
+                <div class="quote-item"><strong>긴급도:</strong> <span id="quote-urgency"></span></div>
+                <div class="quote-item"><strong>작업 내용 요약:</strong> <span id="quote-summary"></span></div>
+                <div class="quote-item"><strong>우선순위 근거:</strong> <span id="quote-priority-reason"></span></div>
+                <div class="quote-item"><strong>예상 비용:</strong> <span id="quote-cost"></span></div>
+                <div class="quote-item"><strong>예상 작업 시간:</strong> <span id="quote-time"></span></div>
+            </div>
+            <div class="quote-actions">
+                <button id="cancel-quote-btn" class="cancel-btn">취소</button>
+                <button id="confirm-quote-btn" class="submit-btn">확인 및 제출</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -4,6 +4,115 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RAG Pipeline API App</title>
+  <script>
+    // 디버그 로그를 localStorage에 저장
+    function debugLog(msg) {
+      const logs = JSON.parse(localStorage.getItem('DEBUG_LOGS') || '[]');
+      logs.push(new Date().toLocaleTimeString() + ' - ' + msg);
+      if (logs.length > 50) logs.shift(); // 최대 50개까지만 저장
+      localStorage.setItem('DEBUG_LOGS', JSON.stringify(logs));
+      console.log(msg);
+      updateDebugDisplay();
+    }
+
+    // 화면에 디버그 로그 표시
+    function updateDebugDisplay() {
+      const debugBox = document.getElementById('debugBox');
+      if (!debugBox) return;
+      const logs = JSON.parse(localStorage.getItem('DEBUG_LOGS') || '[]');
+      debugBox.textContent = logs.join('\n');
+      debugBox.scrollTop = debugBox.scrollHeight;
+    }
+
+    // 디버그 로그 확인
+    window.showDebugLogs = function() {
+      const logs = JSON.parse(localStorage.getItem('DEBUG_LOGS') || '[]');
+      console.log('=== 디버그 로그 ===');
+      logs.forEach(log => console.log(log));
+    };
+
+    // URL 파라미터에서 인증 정보 추출 후 localStorage에 저장
+    function initAuthFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const auth = params.get('auth');
+      const role = params.get('role');
+      
+      debugLog('URL 파라미터 확인: search=' + window.location.search + ', auth=' + auth + ', role=' + role);
+      
+      if (auth === '1' && (role === 'user' || role === 'admin')) {
+        debugLog('✓ localStorage에 저장: auth=1, role=' + role);
+        localStorage.setItem('APP_AUTH', '1');
+        localStorage.setItem('USER_ROLE', role);
+        // URL 파라미터 제거 (깔끔하게)
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return true;
+      } else {
+        debugLog('✗ 유효하지 않은 파라미터: auth=' + auth + ', role=' + role);
+        return false;
+      }
+    }
+
+    // localStorage에서 인증 정보 확인
+    function checkAuthFromStorage() {
+      const auth = localStorage.getItem('APP_AUTH') === '1';
+      debugLog('localStorage 확인: APP_AUTH=' + localStorage.getItem('APP_AUTH') + ', USER_ROLE=' + localStorage.getItem('USER_ROLE'));
+      return auth;
+    }
+
+    // localStorage에서 role 값 추출
+    function getUserRole() {
+      return localStorage.getItem('USER_ROLE');
+    }
+
+    // role별 UI 렌더링
+    function renderByRole(role) {
+      const badge = document.getElementById('roleBadge');
+      const root = document.documentElement;
+      const adminCard = document.getElementById('adminCard');
+
+      if (role === 'user') {
+        badge.innerHTML = '👤 User Role';
+        badge.classList.add('user-role');
+        root.style.setProperty('--brand', '#3ca3ff');
+        root.style.setProperty('--brand-glow', '#6ec8ff');
+        document.body.style.backgroundImage = 'radial-gradient(circle at 30% 20%, #07101a 0%, #02060a 100%)';
+        if (adminCard) adminCard.style.display = 'none';
+      } else if (role === 'admin') {
+        badge.innerHTML = '🔐 Admin Role';
+        badge.classList.add('admin-role');
+        root.style.setProperty('--brand', '#ff3ca3');
+        root.style.setProperty('--brand-glow', '#ff6ec8');
+        document.body.style.backgroundImage = 'radial-gradient(circle at 30% 20%, #1a0715 0%, #0a0205 100%)';
+        if (adminCard) adminCard.style.display = 'flex';
+      }
+    }
+
+    // 페이지 로드 시 인증 확인 및 role별 렌더링
+    debugLog('페이지 로드 시작');
+    initAuthFromUrl();
+
+    window.addEventListener('load', function() {
+      debugLog('window load 이벤트 발생');
+      
+      if (!checkAuthFromStorage()) {
+        debugLog('✗ 인증 정보 없음 - 로그인 페이지로 이동');
+        window.location.href = 'http://localhost:8080/login';
+        return;
+      }
+
+      const role = getUserRole();
+      debugLog('현재 role: ' + role);
+      
+      if (role === 'user' || role === 'admin') {
+        renderByRole(role);
+      } else {
+        debugLog('✗ 알 수 없는 role - 로그인 페이지로 이동');
+        localStorage.removeItem('APP_AUTH');
+        localStorage.removeItem('USER_ROLE');
+        window.location.href = 'http://localhost:8080/login';
+      }
+    });
+  </script>
   <style>
     :root{
       --bg:#05080c; --panel:#0b0f15; --line:#1a2635;
@@ -17,15 +126,40 @@
       color:var(--ink);
       display:flex; flex-direction:column; align-items:center; justify-content:center;
       text-align:center;
+      transition: background 0.3s ease;
     }
 
     h1{
-      font-size:36px; /* 기존 28px → 약 130% 확대 */
+      font-size:36px;
       font-weight:700;
       letter-spacing:1px;
       margin-bottom:30px;
       color:var(--brand);
       text-shadow:0 0 16px rgba(108,195,255,0.3);
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    .role-badge{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:20px;
+      font-size:12px;
+      font-weight:600;
+      margin-bottom:20px;
+      border:1px solid;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .role-badge.user-role{
+      background:#2d5f4f;
+      color:#7dd3c0;
+      border-color:#4a9f8f;
+    }
+
+    .role-badge.admin-role{
+      background:#5f2d4f;
+      color:#f07dd3;
+      border-color:#9f4a8f;
     }
 
     .dock{
@@ -53,6 +187,10 @@
       box-shadow:0 10px 28px rgba(61,142,255,0.35);
     }
     .card:active{ transform:translateY(0); }
+
+    .card.admin-card {
+      display: none;
+    }
 
     .card h2{
       font-size:18px;
@@ -114,6 +252,7 @@
 </head>
 <body>
   <h1>RAG Pipeline API App</h1>
+  <div class="role-badge" id="roleBadge"></div>
 
   <div class="dock">
     <a href="external_index.html" class="card">
@@ -124,11 +263,25 @@
       <h2>Open-Weight LLM Console</h2>
       <p>오픈 웨이트 LLM을 활용한<br>내부 벡터/DB 기반 RAG 시스템을 관리합니다.</p>
     </a>
+    <a href="admin_dashboard.html" class="card admin-card" id="adminCard">
+      <h2>Admin Dashboard</h2>
+      <p>시스템 관리자용 대시보드입니다.<br>사용자 관리 및 시스템 설정을 수행합니다.</p>
+    </a>
   </div>
+
+  <!-- 디버그 로그 박스 (F12 개발자도구 필요 없음) -->
+  <div id="debugBox" style="position:fixed; bottom:60px; right:10px; width:350px; height:150px; background:#000; color:#0f0; border:1px solid #0f0; border-radius:5px; padding:10px; font-family:monospace; font-size:11px; overflow-y:auto; z-index:9999; display:block; white-space:pre-wrap; word-break:break-all;"></div>
 
   <footer>
     <div class="slogan">RAG Sense, Spirit Beyond. The RAG spirit is understood, not spoken.</div>
   </footer>
+
+  <script>
+    // 페이지 로드 후 디버그 로그 표시
+    window.addEventListener('load', function() {
+      updateDebugDisplay();
+    });
+  </script>
 </body>
 <!--
 #### 실습 코드는 학습 목적으로만 사용 바랍니다. audit@korea.ac.kr 임성열 Ph.D.

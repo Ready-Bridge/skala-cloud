@@ -43,6 +43,7 @@ venv/
 .venv/
 env/
 .env/
+.env
 bin/
 lib/
 include/

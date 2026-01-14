@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <title>로그인</title>
     <link rel="stylesheet" href="/static/style.css">
+    <script>
+      // 디버그 로그를 화면에 표시
+      function updateDebugDisplay() {
+        const debugBox = document.getElementById('debugBox');
+        if (!debugBox) return;
+        const logs = JSON.parse(localStorage.getItem('DEBUG_LOGS') || '[]');
+        debugBox.textContent = logs.join('\n');
+        debugBox.scrollTop = debugBox.scrollHeight;
+      }
+
+      // 페이지 로드 후 디버그 로그 표시
+      window.addEventListener('load', function() {
+        updateDebugDisplay();
+      });
+    </script>
 </head>
 <body>
 <div class="container">
@@ -19,6 +34,10 @@
     </form>
     <p>아직 계정이 없으신가요? <a href="/signup">회원가입</a></p>
 </div>
+
+<!-- 디버그 로그 박스 -->
+<div id="debugBox" style="position:fixed; bottom:60px; right:10px; width:350px; height:150px; background:#000; color:#0f0; border:1px solid #0f0; border-radius:5px; padding:10px; font-family:monospace; font-size:11px; overflow-y:auto; z-index:9999; display:block; white-space:pre-wrap; word-break:break-all;"></div>
+
 <script src="/static/app.js"></script>
 </body>
 </html>
