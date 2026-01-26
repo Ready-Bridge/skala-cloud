@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.product.mapper.PurchaseMapper">
+
+ <select id="findAll" resultType="com.example.product.dto.PurchaseResponse">
+   SELECT 
+     p.id, p.member_id as memberId, m.name as memberName,
+     p.product_id as productId, pr.name as productName,
+     p.quantity, p.total_price as totalPrice, p.purchased_at as purchasedAt
+   FROM purchases p
+   INNER JOIN members m ON p.member_id = m.id
+   INNER JOIN products pr ON p.product_id = pr.id
+   ORDER BY p.purchased_at DESC
+ </select>
+
+ <select id="findById" parameterType="long" resultType="com.example.product.dto.PurchaseResponse">
+   SELECT 
+     p.id, p.member_id as memberId, m.name as memberName,
+     p.product_id as productId, pr.name as productName,
+     p.quantity, p.total_price as totalPrice, p.purchased_at as purchasedAt
+   FROM purchases p
+   INNER JOIN members m ON p.member_id = m.id
+   INNER JOIN products pr ON p.product_id = pr.id
+   WHERE p.id=#{id}
+ </select>
+
+ <insert id="insert" parameterType="com.example.product.domain.Purchase"
+         useGeneratedKeys="true" keyProperty="id">
+   INSERT INTO purchases(member_id,product_id,quantity,total_price,purchased_at)
+   VALUES(#{memberId},#{productId},#{quantity},#{totalPrice},CURRENT_TIMESTAMP)
+ </insert>
+
+ <select id="findByMemberId" parameterType="long" resultType="com.example.product.dto.PurchaseResponse">
+   SELECT 
+     p.id, p.member_id as memberId, m.name as memberName,
+     p.product_id as productId, pr.name as productName,
+     p.quantity, p.total_price as totalPrice, p.purchased_at as purchasedAt
+   FROM purchases p
+   INNER JOIN members m ON p.member_id = m.id
+   INNER JOIN products pr ON p.product_id = pr.id
+   WHERE p.member_id=#{memberId}
+   ORDER BY p.purchased_at DESC
+ </select>
+
+ <select id="findByProductId" parameterType="long" resultType="com.example.product.dto.PurchaseResponse">
+   SELECT 
+     p.id, p.member_id as memberId, m.name as memberName,
+     p.product_id as productId, pr.name as productName,
+     p.quantity, p.total_price as totalPrice, p.purchased_at as purchasedAt
+   FROM purchases p
+   INNER JOIN members m ON p.member_id = m.id
+   INNER JOIN products pr ON p.product_id = pr.id
+   WHERE p.product_id=#{productId}
+   ORDER BY p.purchased_at DESC
+ </select>
+
+</mapper>

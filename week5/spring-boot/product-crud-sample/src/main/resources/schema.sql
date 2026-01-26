@@ -1,0 +1,41 @@
+DROP TABLE IF EXISTS purchases;
+DROP TABLE IF EXISTS members;
+DROP TABLE IF EXISTS products;
+
+--- Schema for Products Table
+
+CREATE TABLE products(
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(100) NOT NULL,
+ description VARCHAR(255),
+ price DECIMAL(15,2) NOT NULL,
+ stock INT NOT NULL,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+--- Schema for Member Table
+
+CREATE TABLE members(
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ email VARCHAR(100) NOT NULL UNIQUE,
+ name VARCHAR(100) NOT NULL,
+ password VARCHAR(100) NOT NULL,
+ phone VARCHAR(20),
+ address VARCHAR(255),
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+--- Schema for Purchase Table (회원의 상품 구매 기록)
+
+CREATE TABLE purchases(
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ member_id BIGINT NOT NULL,
+ product_id BIGINT NOT NULL,
+ quantity INT NOT NULL,
+ total_price DECIMAL(15,2) NOT NULL,
+ purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY (member_id) REFERENCES members(id),
+ FOREIGN KEY (product_id) REFERENCES products(id)
+);

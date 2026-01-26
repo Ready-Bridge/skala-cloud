@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.product.mapper.MemberMapper">
+ <sql id="cols">id,email,name,phone,address,password,created_at,updated_at</sql>
+
+ <select id="findAll" resultType="com.example.product.domain.Member">
+   SELECT <include refid="cols"/> FROM members ORDER BY id DESC
+ </select>
+
+ <select id="findById" parameterType="long" resultType="com.example.product.domain.Member">
+   SELECT <include refid="cols"/> FROM members WHERE id=#{id}
+ </select>
+
+ <insert id="insert" parameterType="com.example.product.domain.Member"
+         useGeneratedKeys="true" keyProperty="id">
+  INSERT INTO members(email,name,phone,address,password,created_at,updated_at)
+  VALUES(#{email},#{name},#{phone},#{address},#{password},CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+ </insert>
+
+ <update id="update" parameterType="com.example.product.domain.Member">
+   UPDATE members SET
+     email=#{email}, name=#{name},
+     phone=#{phone}, address=#{address},
+     password=#{password},
+     updated_at=CURRENT_TIMESTAMP
+   WHERE id=#{id}
+ </update>
+
+ <delete id="deleteById" parameterType="long">
+   DELETE FROM members WHERE id=#{id}
+ </delete>
+
+ <!-- 회원이 구매한 상품 조회 (조인) -->
+ <select id="findMemberWithProducts" parameterType="long" resultType="com.example.product.dto.MemberWithProductsResponse">
+   SELECT 
+     m.id, m.email, m.name, m.phone, m.address, 
+     m.created_at, m.updated_at
+   FROM members m
+   WHERE m.id=#{memberId}
+ </select>
+
+ <select id="findByEmail" parameterType="string" resultType="com.example.product.domain.Member">
+   SELECT <include refid="cols"/> FROM members WHERE email=#{email}
+ </select>
+
+</mapper>
