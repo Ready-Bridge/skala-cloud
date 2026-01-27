@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS products;
 --- Schema for Products Table
 
 CREATE TABLE products(
- id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ id BIGSERIAL PRIMARY KEY,
  name VARCHAR(100) NOT NULL,
  description VARCHAR(255),
  price DECIMAL(15,2) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE products(
 --- Schema for Member Table
 
 CREATE TABLE members(
- id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ id BIGSERIAL PRIMARY KEY,
  email VARCHAR(100) NOT NULL UNIQUE,
  name VARCHAR(100) NOT NULL,
  password VARCHAR(100) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE members(
 --- Schema for Purchase Table (회원의 상품 구매 기록)
 
 CREATE TABLE purchases(
- id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ id BIGSERIAL PRIMARY KEY,
  member_id BIGINT NOT NULL,
  product_id BIGINT NOT NULL,
  quantity INT NOT NULL,
