@@ -1,0 +1,11 @@
+# .dockerignore
+.gradle/
+build/
+!build/libs/*.jar
+bin/
+.git/
+.gitignore
+*.md
+logs/
+*.log
+.DS_Store
