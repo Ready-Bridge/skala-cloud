@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref, } from 'vue'
-import { userRef, updateName, updateCity } from '@/lectures/06-function/shallow-ref.js'
+import { userRef, updateName, updateCity } from '@/lectures/06-reactivity/shallow-ref.js'
 
 const user = userRef
 const userName = ref('')
