@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>페이지 이동</title>
+</head>
+
+<body>
+  <label for="loginStatus">로그인 상태:</label>
+  <input id="loginStatus" type="checkbox" />
+  <br /><br />
+  <a id="myLink" href="#">내 페이지</a>
+
+  <script>
+    const link = document.getElementById("myLink");
+    const loginStatus = document.getElementById("loginStatus");
+
+    function updateHref() {
+      if (loginStatus.checked) {
+        link.href = "https://google.com";
+      } else {
+        link.href = "https://naver.com";
+      }
+    }
+
+    updateHref();
+
+    loginStatus.addEventListener("change", updateHref);
+  </script>
+</body>
+
+</html>
